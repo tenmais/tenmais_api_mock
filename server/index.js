@@ -15,7 +15,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json());
 
 app.use(logger("dev"));
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:8080'}));
 
 new OpenApiValidator({
   apiSpec: config.OPENAPI_SPEC,
