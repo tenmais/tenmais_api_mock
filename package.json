@@ -1,0 +1,21 @@
+{
+  "name": "Tenmais API Mock",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "mock": "node server"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "pluralize": "^8.0.0",
+    "qs": "^6.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-openapi-validator": "^3.0.0-alpha.4",
+    "morgan": "^1.9.1"
+  }
+}

@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "empresa": {
+      "id": 10,
+      "nome": "Empresa 1"
+    },
+    "programa_id": 1,
+    "usuario": {
+      "avatar": "http://example.com/avatar_jose.jpg",
+      "criado_em": "2019-12-10T10:30:10Z",
+      "email": "jose@example.com",
+      "fone": "12991088998",
+      "id": 1,
+      "nome_completo": "Jose"
+    },
+    "pontos": 5,
+    "criado_em": "2019-12-10T10:30:10Z",
+    "premiado_em": "2019-12-10T10:30:10Z"
+  }
+]
