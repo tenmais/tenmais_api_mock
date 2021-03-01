@@ -1,12 +1,12 @@
 [
   {
-    "id": 100,
-    "nome_completo": "Gerente Um",
-    "fone": "12991990101",
-    "email": "gerente@dev.local",
+    "id": 3,
+    "nome_completo": "Jorge Oliva",
+    "fone": "12991000222",
+    "email": null,
     "avatar": null,
-    "perfil": "gerente",
-    "empresa_id": 1,
+    "perfil": "cliente",
+    "empresa_id": null,
     "criado_em": "2019-12-10T10:30:10Z"
   },
   {
@@ -17,26 +17,6 @@
     "avatar": null,
     "perfil": "cliente",
     "empresa_id": null,
-    "criado_em": "2019-12-10T10:30:10Z"
-  },
-  {
-    "id": 101,
-    "nome_completo": "Roberto Silva",
-    "fone": "12991000002",
-    "email": "roberto@example.com",
-    "avatar": null,
-    "perfil": "cliente",
-    "empresa_id": null,
-    "criado_em": "2019-12-10T10:30:10Z"
-  },
-  {
-    "id": 100,
-    "nome_completo": "Gerente Dois",
-    "fone": "12991990102",
-    "email": "gerente2@dev.local",
-    "avatar": null,
-    "perfil": "gerente",
-    "empresa_id": 2,
     "criado_em": "2019-12-10T10:30:10Z"
   }
 ]

@@ -30,10 +30,29 @@
       "criado_em": "2019-12-10T10:30:10Z",
       "email": null,
       "fone": "12991000222",
-      "id": 3,
+      "id": 2,
       "nome_completo": "Jorge Waters"
     },
     "pontos": 3,
+    "criado_em": "2019-12-10T10:30:10Z",
+    "premiado_em": "2019-12-10T10:30:10Z"
+  },
+  {
+    "id": 3,
+    "empresa": {
+      "id": 3,
+      "nome": "Deangela Café"
+    },
+    "programa_id": 3,
+    "usuario": {
+      "avatar": null,
+      "criado_em": "2019-12-10T10:30:10Z",
+      "email": null,
+      "fone": "12991000222",
+      "id": 3,
+      "nome_completo": "Jorge Oliva"
+    },
+    "pontos": 4,
     "criado_em": "2019-12-10T10:30:10Z",
     "premiado_em": "2019-12-10T10:30:10Z"
   }
