@@ -724,16 +724,16 @@ components:
     Actions:
       type: object
       required:
-        - name
-        - url
+        - label
+        - link
       properties:
-        name:
+        label:
           type: string
           example: Agendar
-        url:
+        link:
           type: string
           example: http://example.com/agendar
-        display_icon:
+        icon:
           type: string
           example: calendar
           nullable: true
