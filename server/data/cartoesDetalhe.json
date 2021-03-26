@@ -1,0 +1,67 @@
+[
+  {
+      "criado_em": "2021-01-22T00:18:59+00:00",
+      "empresa_id": 1,
+      "id": 2,
+      "pontos": [
+          {
+              "criado_em": "2021-01-22T00:19:13.306374+00:00",
+              "id": 6
+          },
+          {
+              "criado_em": "2021-01-22T00:19:13.707770+00:00",
+              "id": 7
+          },
+          {
+              "criado_em": "2021-01-22T00:19:14.082246+00:00",
+              "id": 8
+          },
+          {
+              "criado_em": "2021-01-22T00:19:15.163611+00:00",
+              "id": 11
+          },
+          {
+              "criado_em": "2021-02-12T11:14:33.085260+00:00",
+              "id": 12
+          },
+          {
+              "criado_em": "2021-02-12T11:16:04.093605+00:00",
+              "id": 13
+          },
+          {
+              "criado_em": "2021-02-12T11:16:30.333710+00:00",
+              "id": 14
+          },
+          {
+              "criado_em": "2021-02-12T11:19:16.391883+00:00",
+              "id": 15
+          }
+      ],
+      "premiado_em": null,
+      "programa_id": 1,
+      "usuario": {
+          "avatar": "",
+          "criado_em": "2021-01-22T00:18:47+00:00",
+          "email": null,
+          "fone": "12991000111",
+          "id": 2,
+          "nome_completo": "José Lima"
+      }
+  },
+  {
+      "criado_em": "2021-03-18T00:36:00+00:00",
+      "empresa_id": 2,
+      "id": 13,
+      "pontos": [],
+      "premiado_em": null,
+      "programa_id": 2,
+      "usuario": {
+          "avatar": null,
+          "criado_em": "2021-03-18T00:36:00.081211+00:00",
+          "email": null,
+          "fone": "11991423100",
+          "id": 20,
+          "nome_completo": "Abelardo Gonçalves"
+      }
+  }
+]

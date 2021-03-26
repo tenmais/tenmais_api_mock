@@ -6,6 +6,7 @@ const { OpenApiValidator } = require('express-openapi-validator');
 
 const config = require('./config');
 const cartoes = require('./controllers/cartoes');
+const cartoesDetalhe = require('./controllers/cartoesDetalhe');
 const auth = require('./controllers/auth');
 const empresas = require('./controllers/empresas');
 
@@ -28,6 +29,7 @@ new OpenApiValidator({
   .install(app)
   .then(() => {
     app.get('/api/cartao', cartoes.find);
+    app.get('/api/cartao/:cartao_id', cartoesDetalhe.find);
     app.post('/api/auth/login/phone', auth.find);
     app.get('/api/empresa/:empresa_id', empresas.getEmpresa);
 

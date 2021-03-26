@@ -3,7 +3,7 @@
 openapi: 3.0.2
 
 info:
-  version: 0.1.1
+  version: 1.1.0
   title: Tenmais
   description: Fidelidade de maneira simples
   contact:
@@ -12,7 +12,7 @@ info:
     url: https://tenmais.app
 
 servers:
-  - url: http://localhost:5000
+  - url: http://127.0.0.1:5000
     description: Local
   - url: https://tunewest.com
     description: Development
@@ -25,7 +25,7 @@ paths:
       operationId: pontos.api.api_version
       summary: Retorna a versão da API
       tags:
-        - Check
+        - Status
       responses:
         200:
           description: Success
@@ -35,7 +35,7 @@ paths:
       operationId: pontos.api.check_sentry
       summary: Gera um erro que deve aparecer no sentry
       tags:
-        - Check
+        - Status
       parameters:
         - name: secret
           in: query
@@ -49,12 +49,12 @@ paths:
 
   /api/cartao:
     get:
-      operationId: pontos.api.cartoes.listar_cartoes
+      operationId: pontos.api.cartoes.listar_cartoes_clientes
       description: Lista todos cartoes de clientes
       tags:
-        - Cartoes
-      # security:
-      #   - oauth2: []
+        - Cartoes Cliente
+      security:
+        - jwtAuth: [cartao:listar]
       parameters:
         - name: order_by
           in: query
@@ -96,7 +96,7 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Cartao'
+                          $ref: '#/components/schemas/CartaoCliente'
         400:
           description: Requisição inválida
         401:
@@ -109,9 +109,9 @@ paths:
       operationId: pontos.api.cartoes.obter_cartao
       description: Obtem detalhes do cartão e a lista de pontos
       tags:
-        - Cartoes
-      # security:
-      #   - oauth2: []
+        - Cartoes Cliente
+      security:
+        - jwtAuth: [cartao:visualizar]
       parameters:
         - name: cartao_id
           in: path
@@ -126,32 +126,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 100
-                  empresa_id:
-                    type: integer
-                    example: 100
-                  programa_id:
-                    type: integer
-                    example: 100
-                  criado_em:
-                    type: string
-                    format: date-time
-                    example: 2021-01-11T11:32:28Z
-                  premiado_em:
-                    type: string
-                    format: date-time
-                    example: 2021-01-11T11:32:28Z
-                    nullable: true
-                  usuario:
-                    $ref: '#/components/schemas/Cliente'
-                  pontos:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Ponto'
+                $ref: '#/components/schemas/CartaoDetalhe'
 
         401:
           description: Not Authorized
@@ -165,9 +140,9 @@ paths:
       operationId: pontos.api.cartoes.adicionar_ponto
       description: Adiciona 1 ponto ao cartao
       tags:
-        - Cartoes
-      # security:
-      #   - oauth2: [gerente]
+        - Cartoes Loja
+      security:
+        - jwtAuth: [ponto:adicionar]
       parameters:
         - name: cartao_id
           in: path
@@ -176,36 +151,23 @@ paths:
           schema:
             type: integer
             example: 1
+        - name: pontos
+          in: query
+          description: |
+            Quantidade de novos pontos
+          schema:
+            type: integer
+            default: 1
+            example: 4
+            maximum: 9
+            nullable: true
       responses:
         200:
           description: Success
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 100
-                  empresa_id:
-                    type: integer
-                    example: 100
-                  programa_id:
-                    type: integer
-                    example: 100
-                  criado_em:
-                    type: string
-                    format: date-time
-                    example: 2021-01-11T11:32:28Z
-                  premiado_em:
-                    type: string
-                    format: date-time
-                    example: 2021-01-11T11:32:28Z
-                    nullable: true
-                  pontos:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Ponto'
+                $ref: '#/components/schemas/CartaoDetalhe'
 
         400:
           description: Cartao não pode receber pontos
@@ -221,9 +183,9 @@ paths:
       operationId: pontos.api.cartoes.remover_ponto
       description: Remove ponto
       tags:
-        - Cartoes
-      # security:
-      #   - oauth2: [gerente]
+        - Cartoes Loja
+      security:
+        - jwtAuth: [ponto:remover]
       parameters:
         - name: cartao_id
           in: path
@@ -246,30 +208,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 100
-                  empresa_id:
-                    type: integer
-                    example: 100
-                  programa_id:
-                    type: integer
-                    example: 100
-                  criado_em:
-                    type: string
-                    format: date-time
-                    example: 2021-01-11T11:32:28Z
-                  premiado_em:
-                    type: string
-                    format: date-time
-                    example: 2021-01-11T11:32:28Z
-                    nullable: true
-                  pontos:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Ponto'
+                $ref: '#/components/schemas/CartaoDetalhe'
 
         400:
           description: Cartao já resgatado ou não tem ponto para ser removido
@@ -285,9 +224,9 @@ paths:
       operationId: pontos.api.cartoes.utilizar_pontos
       description: Utiliza cartao premiado e gera novo cartão em branco
       tags:
-        - Cartoes
-      # security:
-      #   - oauth2: [gerente]
+        - Cartoes Loja
+      security:
+        - jwtAuth: [ponto:utilizar]
       parameters:
         - name: cartao_id
           in: path
@@ -302,7 +241,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Cartao'
+                $ref: '#/components/schemas/CartaoDetalhe'
         400:
           description: Cartao não pode ser utilizado
         401:
@@ -361,8 +300,8 @@ paths:
       description: Gera novo token com base no token expirado
       tags:
         - Autenticação
-      # security:
-      #   - oauth2: [auth:refresh_token]
+      security:
+        - jwtAuth: [auth:refresh_token]
       requestBody:
         required: true
         content:
@@ -399,41 +338,6 @@ paths:
                     example: Another.Encripted.JWT.Token.With.Long.Expiration
         400:
           description: Invalid Token
-
-  /api/empresa/{empresa_id}:
-    get:
-      operationId: pontos.api.empresas.obter_empresa
-      description: Lista detalhes da empresa
-      tags:
-        - Empresa
-      # security:
-      #   - oauth2: []
-      parameters:
-        - name: empresa_id
-          in: path
-          description: ID da empresa
-          required: true
-          schema:
-            type: integer
-            example: 42
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/Empresa'
-                  - type: object
-                    properties:
-                      configuracao:
-                        $ref: '#/components/schemas/EmpresaConfiguracao'
-        401:
-          description: Not Authorized
-        403:
-          description: Not Allowed
-        404:
-          description: Empresa não encontrada
 
   /api/auth/login/phone:
     post:
@@ -474,15 +378,116 @@ paths:
         404:
           description: Fone não cadastrado
 
-  /api/auth/logoff:
+  /api/auth/signin/web/google:
     get:
-      operationId: pontos.api.auth.logoff
-      description: Finaliza sessão
+      operationId: pontos.api.auth.google_login
+      description: Login google
       tags:
         - Autenticação
       responses:
         200:
-          description: Finaliza sessão
+          description: Success
+
+  /api/auth/signin/web/google/authorize:
+    get:
+      operationId: pontos.api.auth.google_authorize
+      description: Token
+      tags:
+        - Autenticação
+      responses:
+        200:
+          description: Success
+
+  /api/auth/signin/web/facebook:
+    get:
+      operationId: pontos.api.auth.facebook_login
+      description: Login facebook
+      tags:
+        - Autenticação
+      responses:
+        200:
+          description: Success
+
+  /api/auth/signin/web/facebook/authorize:
+    get:
+      operationId: pontos.api.auth.facebook_authorize
+      description: Token
+      tags:
+        - Autenticação
+      responses:
+        200:
+          description: Success
+
+  /api/auth/signin/web/twitter:
+    get:
+      operationId: pontos.api.auth.twitter_login
+      description: Login twitter
+      tags:
+        - Autenticação
+      responses:
+        200:
+          description: Success
+
+  /api/auth/signin/web/twitter/authorize:
+    get:
+      operationId: pontos.api.auth.twitter_authorize
+      description: Token
+      tags:
+        - Autenticação
+      responses:
+        200:
+          description: Success
+
+  /api/auth/sigin/web/token/exchange:
+    post:
+      operationId: pontos.api.auth.oauth_token_exchange
+      description: troca identificador por um token
+      tags:
+        - Autenticação
+      security:
+        - jwtAuth: [auth:token_exchange]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - auth_id
+                - secret_key
+                - token
+              properties:
+                auth_id:
+                  type: integer
+                  example: 100
+                secret_key:
+                  type: string
+                  example: ShoRt.Hash.Sec3t
+                token:
+                  type: string
+                  example: Less.Permissive.Token
+      responses:
+        200:
+          description: Token de acesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  usuario:
+                    $ref: '#/components/schemas/Cliente'
+                  token:
+                    type: string
+                    example: Encripted.JWT.Token
+                  refresh_token:
+                    type: string
+                    example: Another.Encripted.JWT.Token.With.Long.Expiration
+        400:
+          description: Requisição inválida
+        401:
+          description: Not Authorized
+        409:
+          description: Email em uso por outra conta
 
   /api/usuario:
     post:
@@ -490,8 +495,8 @@ paths:
       description: Adiciona cliente com cartão de pontos em branco
       tags:
         - Usuário
-      # security:
-      #   - oauth2: [gerente]
+      security:
+        - jwtAuth: [usuario:criar]
       requestBody:
         required: true
         content:
@@ -509,14 +514,14 @@ paths:
                 fone:
                   type: string
                   example: 12991000222
-                email:
-                  type: string
-                  example: usuario@example.com
-                  nullable: true
-                avatar:
-                  type: string
-                  example: data:image/png;base64, iVBORw0KGgAAANSUhEUEQVQI12P4IBKE0DHxgljNBA5ErkJggg==
-                  nullable: true
+                  minLength: 11
+                pontos_iniciais:
+                  type: integer
+                  example: 5
+                  default: 0
+                  minimum: 0
+                  maximum: 9
+
       responses:
         201:
           description: Cliente adicionado
@@ -527,6 +532,8 @@ paths:
                 properties:
                   usuario:
                     $ref: '#/components/schemas/Usuario'
+        400:
+          description: Requisição inválida
 
   /api/usuario/{usuario_id}:
     put:
@@ -534,8 +541,8 @@ paths:
       description: Altera a senha
       tags:
         - Usuário
-      # security:
-      #   - oauth2: [gerente]
+      security:
+        - jwtAuth: [usuario:alterar]
       parameters:
         - name: usuario_id
           in: path
@@ -571,16 +578,125 @@ paths:
         403:
           description: Not Allowed
 
+  /api/empresa/{empresa_id}:
+    get:
+      operationId: pontos.api.empresas.obter_empresa
+      description: Lista detalhes da empresa
+      tags:
+        - Empresa
+      security:
+        - jwtAuth: [empresa:visualizar]
+      parameters:
+        - name: empresa_id
+          in: path
+          description: ID da empresa
+          required: true
+          schema:
+            type: integer
+            example: 42
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Empresa'
+                  - type: object
+                    properties:
+                      configuracao:
+                        $ref: '#/components/schemas/EmpresaConfiguracao'
+                  - type: object
+                    properties:
+                      programas:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Programa'
+        401:
+          description: Not Authorized
+        403:
+          description: Not Allowed
+        404:
+          description: Empresa não encontrada
+
+  /api/empresa/{empresa_id}/cartao:
+    get:
+      operationId: pontos.api.cartoes.listar_cartoes_empresa
+      description: Lista todos cartoes de clientes
+      tags:
+        - Cartoes Loja
+      security:
+        - jwtAuth: [cartao:listar]
+      parameters:
+        - name: empresa_id
+          in: path
+          description: ID da empresa
+          required: true
+          schema:
+            type: integer
+            example: 42
+        - name: order_by
+          in: query
+          description: |
+            Ordenação da listagem.
+          schema:
+            type: string
+            default: nome_completo
+            example: -id
+            nullable: true
+        - name: page
+          in: query
+          description: |
+            Índice da página.
+          schema:
+            type: integer
+            default: 1
+            example: 42
+            nullable: true
+        - name: page_size
+          in: query
+          description: |
+            Tamanho da página.
+          schema:
+            type: integer
+            default: 500
+            example: 100
+            nullable: true
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Cartao'
+        400:
+          description: Requisição inválida
+        401:
+          description: Not Authorized
+        403:
+          description: Not Allowed
+
 components:
-  # securitySchemes:
-  #   jwt:
-  #     type: http
-  #     scheme: bearer
-  #     bearerFormat: JWT
-  #     x-bearerInfoFunc: pontos.services.token_services.check_token_info
-  #   oauth2:
-  #     type: oauth2
-  #     x-tokenInfoFunc: pontos.services.token_services.check_token_info
+  securitySchemes:
+    #    jwtAuth:
+    #      type: http
+    #      scheme: bearer
+    #      bearerFormat: JWT
+    #      x-bearerInfoFunc: pontos.services.token_services.check_token_info
+    jwtAuth:
+      type: oauth2
+      x-tokenInfoFunc: pontos.services.token_services.check_token_info
+      flows:
+        authorizationCode:
+          tokenUrl: 'url'
+          authorizationUrl: 'url'
 
   schemas:
     Cartao:
@@ -589,13 +705,78 @@ components:
         id:
           type: integer
           example: 100
-        empresa:
-          $ref: '#/components/schemas/Empresa'
-        programa_id:
-          type: integer
-          example: 1
-        usuario:
+        programa:
+          $ref: '#/components/schemas/Programa'
+        cliente:
           $ref: '#/components/schemas/Cliente'
+        pontos:
+          type: integer
+          example: 3
+        criado_em:
+          type: string
+          format: date-time
+          example: 2021-01-11T11:32:28Z
+        premiado_em:
+          type: string
+          format: date-time
+          example: 2021-01-11T11:32:28Z
+          nullable: true
+        importado_em:
+          type: string
+          format: date-time
+          example: 2021-01-11T11:32:28Z
+          nullable: true
+
+    CartaoDetalhe:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 100
+        empresa_id:
+          type: integer
+          example: 100
+        programa:
+          $ref: '#/components/schemas/Programa'
+          nullable: true
+        cliente:
+          $ref: '#/components/schemas/Cliente'
+          nullable: true
+        pontos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ponto'
+        criado_em:
+          type: string
+          format: date-time
+          example: 2021-01-11T11:32:28Z
+        premiado_em:
+          type: string
+          format: date-time
+          example: 2021-01-11T11:32:28Z
+          nullable: true
+        importado_em:
+          type: string
+          format: date-time
+          example: 2021-01-11T11:32:28Z
+          nullable: true
+
+    CartaoCliente:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 100
+        empresa:
+          allOf:
+            - $ref: '#/components/schemas/Empresa'
+            - type: object
+              properties:
+                configuracao:
+                  $ref: '#/components/schemas/EmpresaConfiguracao'
+
+        programa:
+          $ref: '#/components/schemas/Programa'
         pontos:
           type: integer
           example: 3
@@ -676,10 +857,19 @@ components:
         avatar:
           type: string
           nullable: true
+        oauth_provider:
+          type: string
+          example: google
+          nullable: true
         criado_em:
           type: string
           format: date-time
           example: 2021-01-11T11:32:28Z
+        fone_login:
+          description: Quando presente, indica que é resultado do login via fone com inf. reduzidas
+          type: boolean
+          example: true
+          nullable: true
 
     Empresa:
       type: object
@@ -706,7 +896,10 @@ components:
             background_image_1536x999:
               type: string
               example: https://example.com/background.png
-            background_color:
+            background_color_gradiente1:
+              type: string
+              example: '#754E3B'
+            background_color_gradiente2:
               type: string
               example: '#754E3B'
             primary_color:
@@ -720,6 +913,40 @@ components:
           nullable: true
           items:
             $ref: '#/components/schemas/Actions'
+        location:
+          type: object
+          properties:
+            address:
+              type: string
+              example: Rua José Maria, 42
+            address_extra:
+              type: string
+              example: Jd. Veneza
+            direction_link:
+              type: string
+              example: https://goo.gl/maps/AqJ5EWPCA
+            website:
+              type: string
+              example: https://example.com
+            workhours:
+              type: string
+              example: Seg - Sex 9h às 19h
+
+    Programa:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Compre 10 e Ganhe 1
+        total_pontos:
+          type: integer
+          example: 10
+        descricao:
+          type: string
+          example: Na compra de 10 cortes, ganhe 1
 
     Actions:
       type: object
