@@ -6,6 +6,7 @@ const { OpenApiValidator } = require('express-openapi-validator');
 
 const config = require('./config');
 const cartoes = require('./controllers/cartoes');
+const cartoesEmpresa = require('./controllers/cartoesEmpresa');
 const cartoesDetalhe = require('./controllers/cartoesDetalhe');
 const auth = require('./controllers/auth');
 const empresas = require('./controllers/empresas');
@@ -33,8 +34,9 @@ new OpenApiValidator({
     app.get('/api/cartao', cartoes.find);
     app.get('/api/cartao/:cartao_id', cartoesDetalhe.find);
     app.get('/api/empresa/:empresa_id', empresas.getEmpresa);
+    app.get('/api/empresa/:empresa_id/cartao', cartoesEmpresa.find);
 
-    app.listen(config.PORT, () => {
+    http: app.listen(config.PORT, () => {
       console.log('JSON Server is running on port: ' + config.PORT);
     });
   });
