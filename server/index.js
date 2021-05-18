@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.text())
 app.use(bodyParser.json())
 
-const cors_origin_url = process.env.ORIGIN_URL || 'http://localhost:8080'
+const cors_origin_url = process.env.ORIGIN_URL || '*'
 
 app.use(logger('dev'))
 app.use(cors({ credentials: true, origin: cors_origin_url }))
