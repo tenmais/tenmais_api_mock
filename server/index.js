@@ -1,4 +1,5 @@
 const express = require('express')
+const redoc = require('redoc-express')
 const cors = require('cors')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
@@ -11,6 +12,9 @@ const cartoesDetalhe = require('./controllers/cartoesDetalhe')
 const auth = require('./controllers/auth')
 const empresas = require('./controllers/empresas')
 
+const YELLOW = '\x1b[33m%s\x1b[0m'
+const WHITE = '\x1b[37m'
+
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -22,10 +26,21 @@ const cors_origin_url = process.env.ORIGIN_URL || 'http://localhost:8080'
 app.use(logger('dev'))
 app.use(cors({ credentials: true, origin: cors_origin_url }))
 
+app.get('/api/swagger.json', (req, res) => {
+  res.sendFile(config.OPENAPI_JSON, { root: '.' })
+})
+app.get(
+  '/api',
+  redoc({
+    title: 'API Mock',
+    specUrl: '/api/swagger.json',
+  })
+)
+
 new OpenApiValidator({
   apiSpec: config.OPENAPI_SPEC,
   validateRequests: true,
-  validateResponses: true,
+  validateResponses: false,
 })
   .install(app)
   .then(() => {
@@ -40,6 +55,10 @@ new OpenApiValidator({
     app.get('/api/empresa/:empresa_id/cartao', cartoesEmpresa.find)
 
     http: app.listen(config.PORT, () => {
-      console.log('JSON Server is running on port: ' + config.PORT)
+      console.log(
+        YELLOW,
+        '🆙 JSON Server is running on port: ' + config.PORT,
+        WHITE
+      )
     })
   })

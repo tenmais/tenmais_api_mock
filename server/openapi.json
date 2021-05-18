@@ -1,0 +1,1421 @@
+{
+  "components": {
+    "schemas": {
+      "Actions": {
+        "properties": {
+          "display_icon": {
+            "example": "calendar", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "name": {
+            "example": "Agendar", 
+            "type": "string"
+          }, 
+          "url": {
+            "example": "http://example.com/agendar", 
+            "type": "string"
+          }
+        }, 
+        "required": [
+          "name", 
+          "url"
+        ], 
+        "type": "object"
+      }, 
+      "Cartao": {
+        "properties": {
+          "atualizado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "cliente": {
+            "$ref": "#/components/schemas/Cliente"
+          }, 
+          "criado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "type": "string"
+          }, 
+          "id": {
+            "example": 100, 
+            "type": "integer"
+          }, 
+          "importado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "pontos": {
+            "example": 3, 
+            "type": "integer"
+          }, 
+          "premiado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "programa": {
+            "$ref": "#/components/schemas/Programa"
+          }
+        }, 
+        "type": "object"
+      }, 
+      "CartaoCliente": {
+        "properties": {
+          "criado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "type": "string"
+          }, 
+          "empresa": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Empresa"
+              }, 
+              {
+                "properties": {
+                  "configuracao": {
+                    "$ref": "#/components/schemas/EmpresaConfiguracao"
+                  }
+                }, 
+                "type": "object"
+              }
+            ]
+          }, 
+          "id": {
+            "example": 100, 
+            "type": "integer"
+          }, 
+          "pontos": {
+            "example": 3, 
+            "type": "integer"
+          }, 
+          "premiado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "programa": {
+            "$ref": "#/components/schemas/Programa"
+          }
+        }, 
+        "type": "object"
+      }, 
+      "CartaoDetalhe": {
+        "properties": {
+          "cliente": {
+            "$ref": "#/components/schemas/Cliente", 
+            "nullable": true
+          }, 
+          "criado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "type": "string"
+          }, 
+          "empresa_id": {
+            "example": 100, 
+            "type": "integer"
+          }, 
+          "id": {
+            "example": 100, 
+            "type": "integer"
+          }, 
+          "importado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "pontos": {
+            "items": {
+              "$ref": "#/components/schemas/Ponto"
+            }, 
+            "type": "array"
+          }, 
+          "premiado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "programa": {
+            "$ref": "#/components/schemas/Programa", 
+            "nullable": true
+          }
+        }, 
+        "type": "object"
+      }, 
+      "Cliente": {
+        "properties": {
+          "avatar": {
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "criado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "type": "string"
+          }, 
+          "email": {
+            "example": "jose@example.com", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "fone": {
+            "example": 12991900999, 
+            "type": "string"
+          }, 
+          "fone_login": {
+            "description": "Quando presente, indica que \u00e9 resultado do login via fone com inf. reduzidas", 
+            "example": true, 
+            "nullable": true, 
+            "type": "boolean"
+          }, 
+          "id": {
+            "example": 100, 
+            "type": "integer"
+          }, 
+          "nome_abreviado": {
+            "example": "Jos\u00e9", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "nome_completo": {
+            "example": "Jos\u00e9 da Silva", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "oauth_provider": {
+            "example": "google", 
+            "nullable": true, 
+            "type": "string"
+          }
+        }, 
+        "type": "object"
+      }, 
+      "Empresa": {
+        "properties": {
+          "id": {
+            "example": 100, 
+            "type": "integer"
+          }, 
+          "nome": {
+            "example": "Empresa Um", 
+            "type": "string"
+          }
+        }, 
+        "type": "object"
+      }, 
+      "EmpresaConfiguracao": {
+        "properties": {
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/Actions"
+            }, 
+            "nullable": true, 
+            "type": "array"
+          }, 
+          "location": {
+            "properties": {
+              "address": {
+                "example": "Rua Jos\u00e9 Maria, 42", 
+                "type": "string"
+              }, 
+              "address_extra": {
+                "example": "Jd. Veneza", 
+                "type": "string"
+              }, 
+              "direction_link": {
+                "example": "https://goo.gl/maps/AqJ5EWPCA", 
+                "type": "string"
+              }, 
+              "website": {
+                "example": "https://example.com", 
+                "type": "string"
+              }, 
+              "workhours": {
+                "example": "Seg - Sex 9h \u00e0s 19h", 
+                "type": "string"
+              }
+            }, 
+            "type": "object"
+          }, 
+          "theme": {
+            "properties": {
+              "background_color_gradiente1": {
+                "example": "#754E3B", 
+                "type": "string"
+              }, 
+              "background_color_gradiente2": {
+                "example": "#754E3B", 
+                "type": "string"
+              }, 
+              "background_image_1536x999": {
+                "example": "https://example.com/background.png", 
+                "type": "string"
+              }, 
+              "background_image_640x1136": {
+                "example": "https://example.com/background.png", 
+                "type": "string"
+              }, 
+              "logo_512x512": {
+                "example": "https://example.com/logo.png", 
+                "type": "string"
+              }, 
+              "primary_color": {
+                "example": "#4f4170", 
+                "type": "string"
+              }, 
+              "secondary_color": {
+                "example": "#31314e", 
+                "type": "string"
+              }
+            }, 
+            "type": "object"
+          }
+        }, 
+        "type": "object"
+      }, 
+      "Paginacao": {
+        "properties": {
+          "metadata": {
+            "properties": {
+              "pagina_atual": {
+                "example": 1, 
+                "type": "integer"
+              }, 
+              "proxima": {
+                "example": 2, 
+                "nullable": true, 
+                "type": "integer"
+              }, 
+              "total": {
+                "example": 500, 
+                "type": "integer"
+              }, 
+              "total_paginas": {
+                "example": 2, 
+                "type": "integer"
+              }
+            }, 
+            "type": "object"
+          }
+        }, 
+        "type": "object"
+      }, 
+      "Ponto": {
+        "properties": {
+          "criado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "id": {
+            "example": 100, 
+            "type": "integer"
+          }
+        }, 
+        "type": "object"
+      }, 
+      "Programa": {
+        "properties": {
+          "descricao": {
+            "example": "Na compra de 10 cortes, ganhe 1", 
+            "type": "string"
+          }, 
+          "id": {
+            "example": 1, 
+            "type": "integer"
+          }, 
+          "nome": {
+            "example": "Compre 10 e Ganhe 1", 
+            "type": "string"
+          }, 
+          "total_pontos": {
+            "example": 10, 
+            "type": "integer"
+          }
+        }, 
+        "type": "object"
+      }, 
+      "Usuario": {
+        "properties": {
+          "avatar": {
+            "example": "http://example.com/img/avatar/jose_thumb.png", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "criado_em": {
+            "example": "2021-01-11T11:32:28+00:00", 
+            "format": "date-time", 
+            "type": "string"
+          }, 
+          "email": {
+            "example": "jose@example.com", 
+            "nullable": true, 
+            "type": "string"
+          }, 
+          "empresa_id": {
+            "example": 1, 
+            "nullable": true, 
+            "type": "integer"
+          }, 
+          "fone": {
+            "example": 12991900999, 
+            "type": "string"
+          }, 
+          "id": {
+            "example": 100, 
+            "type": "integer"
+          }, 
+          "nome_completo": {
+            "example": "Jos\u00e9 da Silva", 
+            "type": "string"
+          }, 
+          "perfil": {
+            "example": "gerente ou cliente", 
+            "type": "string"
+          }
+        }, 
+        "type": "object"
+      }
+    }, 
+    "securitySchemes": {
+      "jwtAuth": {
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "url", 
+            "tokenUrl": "url"
+          }
+        }, 
+        "type": "oauth2", 
+        "x-tokenInfoFunc": "pontos.services.token_services.check_token_info"
+      }
+    }
+  }, 
+  "info": {
+    "contact": {
+      "email": "roger@na-inter.net", 
+      "name": "Tenmais", 
+      "url": "https://tenmais.app"
+    }, 
+    "description": "Fidelidade de maneira simples", 
+    "title": "Tenmais", 
+    "version": "1.1.0"
+  }, 
+  "openapi": "3.0.2", 
+  "paths": {
+    "/api/auth/login/phone": {
+      "post": {
+        "description": "Faz login com baixa permissao usando telefone", 
+        "operationId": "pontos.api.auth.login_using_phone", 
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "phone": {
+                    "example": 12988001122, 
+                    "type": "string"
+                  }
+                }, 
+                "required": [
+                  "phone"
+                ], 
+                "type": "object"
+              }
+            }
+          }, 
+          "required": true
+        }, 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "refresh_token": {
+                      "example": "Another.Encripted.JWT.Token.With.Long.Expiration", 
+                      "type": "string"
+                    }, 
+                    "token": {
+                      "example": "Encripted.JWT.Token", 
+                      "type": "string"
+                    }, 
+                    "usuario": {
+                      "$ref": "#/components/schemas/Cliente"
+                    }
+                  }, 
+                  "type": "object"
+                }
+              }
+            }, 
+            "description": "Token de acesso"
+          }, 
+          "404": {
+            "description": "Fone n\u00e3o cadastrado"
+          }
+        }, 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/refresh/token": {
+      "post": {
+        "description": "Gera novo token com base no token expirado", 
+        "operationId": "pontos.api.auth.refresh_token", 
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false, 
+                "properties": {
+                  "refresh_token": {
+                    "example": "Another.Generated.Token", 
+                    "type": "string"
+                  }, 
+                  "token": {
+                    "example": "Generated.Token", 
+                    "type": "string"
+                  }
+                }, 
+                "required": [
+                  "token", 
+                  "refresh_token"
+                ], 
+                "type": "object"
+              }
+            }
+          }, 
+          "required": true
+        }, 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "refresh_token": {
+                      "example": "Another.Encripted.JWT.Token.With.Long.Expiration", 
+                      "type": "string"
+                    }, 
+                    "token": {
+                      "example": "Encripted.JWT.Token", 
+                      "type": "string"
+                    }, 
+                    "usuario": {
+                      "$ref": "#/components/schemas/Usuario"
+                    }
+                  }, 
+                  "type": "object"
+                }
+              }
+            }, 
+            "description": "Token de acesso"
+          }, 
+          "400": {
+            "description": "Invalid Token"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "auth:refresh_token"
+            ]
+          }
+        ], 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/sigin/web/token/exchange": {
+      "post": {
+        "description": "troca identificador por um token", 
+        "operationId": "pontos.api.auth.oauth_token_exchange", 
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "auth_id": {
+                    "example": 100, 
+                    "type": "integer"
+                  }, 
+                  "secret_key": {
+                    "example": "ShoRt.Hash.Sec3t", 
+                    "type": "string"
+                  }, 
+                  "token": {
+                    "example": "Less.Permissive.Token", 
+                    "type": "string"
+                  }
+                }, 
+                "required": [
+                  "auth_id", 
+                  "secret_key", 
+                  "token"
+                ], 
+                "type": "object"
+              }
+            }
+          }, 
+          "required": true
+        }, 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "refresh_token": {
+                      "example": "Another.Encripted.JWT.Token.With.Long.Expiration", 
+                      "type": "string"
+                    }, 
+                    "token": {
+                      "example": "Encripted.JWT.Token", 
+                      "type": "string"
+                    }, 
+                    "usuario": {
+                      "$ref": "#/components/schemas/Cliente"
+                    }
+                  }, 
+                  "type": "object"
+                }
+              }
+            }, 
+            "description": "Token de acesso"
+          }, 
+          "400": {
+            "description": "Requisi\u00e7\u00e3o inv\u00e1lida"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "409": {
+            "description": "Email em uso por outra conta"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "auth:token_exchange"
+            ]
+          }
+        ], 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/signin": {
+      "post": {
+        "description": "Faz login para obter JWT token", 
+        "operationId": "pontos.api.auth.signin", 
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false, 
+                "properties": {
+                  "email": {
+                    "example": "usuario@example.com", 
+                    "type": "string"
+                  }, 
+                  "password": {
+                    "example": "secrets", 
+                    "type": "string"
+                  }
+                }, 
+                "required": [
+                  "email", 
+                  "password"
+                ], 
+                "type": "object"
+              }
+            }
+          }, 
+          "required": true
+        }, 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "refresh_token": {
+                      "example": "Another.Encripted.JWT.Token.With.Long.Expiration", 
+                      "type": "string"
+                    }, 
+                    "token": {
+                      "example": "Encripted.JWT.Token", 
+                      "type": "string"
+                    }, 
+                    "usuario": {
+                      "$ref": "#/components/schemas/Usuario"
+                    }
+                  }, 
+                  "type": "object"
+                }
+              }
+            }, 
+            "description": "Token de acesso"
+          }, 
+          "401": {
+            "description": "Email ou senha inv\u00e1lida"
+          }
+        }, 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/signin/web/facebook": {
+      "get": {
+        "description": "Login facebook", 
+        "operationId": "pontos.api.auth.facebook_login", 
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }, 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/signin/web/facebook/authorize": {
+      "get": {
+        "description": "Token", 
+        "operationId": "pontos.api.auth.facebook_authorize", 
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }, 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/signin/web/google": {
+      "get": {
+        "description": "Login google", 
+        "operationId": "pontos.api.auth.google_login", 
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }, 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/signin/web/google/authorize": {
+      "get": {
+        "description": "Token", 
+        "operationId": "pontos.api.auth.google_authorize", 
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }, 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/signin/web/twitter": {
+      "get": {
+        "description": "Login twitter", 
+        "operationId": "pontos.api.auth.twitter_login", 
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }, 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/auth/signin/web/twitter/authorize": {
+      "get": {
+        "description": "Token", 
+        "operationId": "pontos.api.auth.twitter_authorize", 
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }, 
+        "tags": [
+          "Autentica\u00e7\u00e3o"
+        ]
+      }
+    }, 
+    "/api/cartao": {
+      "get": {
+        "description": "Lista todos cartoes de clientes", 
+        "operationId": "pontos.api.cartoes.listar_cartoes_clientes", 
+        "parameters": [
+          {
+            "description": "Ordena\u00e7\u00e3o da listagem.\n", 
+            "in": "query", 
+            "name": "order_by", 
+            "schema": {
+              "default": "nome_completo", 
+              "example": "-id", 
+              "nullable": true, 
+              "type": "string"
+            }
+          }, 
+          {
+            "description": "\u00cdndice da p\u00e1gina.\n", 
+            "in": "query", 
+            "name": "page", 
+            "schema": {
+              "default": 1, 
+              "example": 42, 
+              "nullable": true, 
+              "type": "integer"
+            }
+          }, 
+          {
+            "description": "Tamanho da p\u00e1gina.\n", 
+            "in": "query", 
+            "name": "page_size", 
+            "schema": {
+              "default": 500, 
+              "example": 100, 
+              "nullable": true, 
+              "type": "integer"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "data": {
+                          "items": {
+                            "$ref": "#/components/schemas/CartaoCliente"
+                          }, 
+                          "type": "array"
+                        }
+                      }, 
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }, 
+            "description": "Success"
+          }, 
+          "400": {
+            "description": "Requisi\u00e7\u00e3o inv\u00e1lida"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "cartao:listar"
+            ]
+          }
+        ], 
+        "tags": [
+          "Cartoes Cliente"
+        ]
+      }, 
+      "post": {
+        "description": "Adiciona um novo cart\u00e3o para um cliente (existente ou o cliente tambem ser\u00e1 criado)", 
+        "operationId": "pontos.api.cartoes.criar_cartao", 
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false, 
+                "properties": {
+                  "fone": {
+                    "example": 12991000222, 
+                    "minLength": 11, 
+                    "type": "string"
+                  }, 
+                  "nome_completo": {
+                    "example": "Jos\u00e9 da Silva", 
+                    "type": "string"
+                  }, 
+                  "pontos_iniciais": {
+                    "default": 0, 
+                    "example": 5, 
+                    "maximum": 9, 
+                    "minimum": 0, 
+                    "type": "integer"
+                  }
+                }, 
+                "required": [
+                  "nome_completo", 
+                  "fone"
+                ], 
+                "type": "object"
+              }
+            }
+          }, 
+          "required": true
+        }, 
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cartao"
+                }
+              }
+            }, 
+            "description": "Cart\u00e3o adicionado"
+          }, 
+          "400": {
+            "description": "Requisi\u00e7\u00e3o inv\u00e1lida"
+          }, 
+          "409": {
+            "description": "Este fone j\u00e1 tem um cart\u00e3o desta empresa"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "cartao:criar"
+            ]
+          }
+        ], 
+        "tags": [
+          "Cartoes Loja"
+        ]
+      }
+    }, 
+    "/api/cartao/{cartao_id}": {
+      "get": {
+        "description": "Obtem detalhes do cart\u00e3o e a lista de pontos", 
+        "operationId": "pontos.api.cartoes.obter_cartao", 
+        "parameters": [
+          {
+            "description": "Cartao Id", 
+            "in": "path", 
+            "name": "cartao_id", 
+            "required": true, 
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartaoDetalhe"
+                }
+              }
+            }, 
+            "description": "Success"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }, 
+          "404": {
+            "description": "Cart\u00e3o n\u00e3o encontrado"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "cartao:visualizar"
+            ]
+          }
+        ], 
+        "tags": [
+          "Cartoes Cliente"
+        ]
+      }
+    }, 
+    "/api/cartao/{cartao_id}/ponto/adiciona": {
+      "post": {
+        "description": "Adiciona 1 ponto ao cartao", 
+        "operationId": "pontos.api.cartoes.adicionar_ponto", 
+        "parameters": [
+          {
+            "description": "ID do cart\u00e3o", 
+            "in": "path", 
+            "name": "cartao_id", 
+            "required": true, 
+            "schema": {
+              "example": 1, 
+              "type": "integer"
+            }
+          }, 
+          {
+            "description": "Quantidade de novos pontos\n", 
+            "in": "query", 
+            "name": "pontos", 
+            "schema": {
+              "default": 1, 
+              "example": 4, 
+              "maximum": 9, 
+              "nullable": true, 
+              "type": "integer"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartaoDetalhe"
+                }
+              }
+            }, 
+            "description": "Success"
+          }, 
+          "400": {
+            "description": "Cartao n\u00e3o pode receber pontos"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }, 
+          "404": {
+            "description": "Cartao n\u00e3o encontrado"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "ponto:adicionar"
+            ]
+          }
+        ], 
+        "tags": [
+          "Cartoes Loja"
+        ]
+      }
+    }, 
+    "/api/cartao/{cartao_id}/ponto/utiliza": {
+      "post": {
+        "description": "Utiliza cartao premiado e gera novo cart\u00e3o em branco", 
+        "operationId": "pontos.api.cartoes.utilizar_pontos", 
+        "parameters": [
+          {
+            "description": "ID do cartao", 
+            "in": "path", 
+            "name": "cartao_id", 
+            "required": true, 
+            "schema": {
+              "example": 1, 
+              "type": "integer"
+            }
+          }
+        ], 
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartaoDetalhe"
+                }
+              }
+            }, 
+            "description": "Success"
+          }, 
+          "400": {
+            "description": "Cartao n\u00e3o pode ser utilizado"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }, 
+          "404": {
+            "description": "Cartao n\u00e3o encontrado"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "ponto:utilizar"
+            ]
+          }
+        ], 
+        "tags": [
+          "Cartoes Loja"
+        ]
+      }
+    }, 
+    "/api/cartao/{cartao_id}/ponto/{ponto_id}": {
+      "delete": {
+        "description": "Remove ponto", 
+        "operationId": "pontos.api.cartoes.remover_ponto", 
+        "parameters": [
+          {
+            "description": "ID do cartao", 
+            "in": "path", 
+            "name": "cartao_id", 
+            "required": true, 
+            "schema": {
+              "example": 1, 
+              "type": "integer"
+            }
+          }, 
+          {
+            "description": "ID do ponto", 
+            "in": "path", 
+            "name": "ponto_id", 
+            "required": true, 
+            "schema": {
+              "example": 100, 
+              "type": "integer"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartaoDetalhe"
+                }
+              }
+            }, 
+            "description": "Success"
+          }, 
+          "400": {
+            "description": "Cartao j\u00e1 resgatado ou n\u00e3o tem ponto para ser removido"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }, 
+          "404": {
+            "description": "Cartao ou Ponto n\u00e3o encontrado"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "ponto:remover"
+            ]
+          }
+        ], 
+        "tags": [
+          "Cartoes Loja"
+        ]
+      }
+    }, 
+    "/api/empresa/{empresa_id}": {
+      "get": {
+        "description": "Lista detalhes da empresa", 
+        "operationId": "pontos.api.empresas.obter_empresa", 
+        "parameters": [
+          {
+            "description": "ID da empresa", 
+            "in": "path", 
+            "name": "empresa_id", 
+            "required": true, 
+            "schema": {
+              "example": 42, 
+              "type": "integer"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Empresa"
+                    }, 
+                    {
+                      "properties": {
+                        "configuracao": {
+                          "$ref": "#/components/schemas/EmpresaConfiguracao"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    {
+                      "properties": {
+                        "programas": {
+                          "items": {
+                            "$ref": "#/components/schemas/Programa"
+                          }, 
+                          "type": "array"
+                        }
+                      }, 
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }, 
+            "description": "Success"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }, 
+          "404": {
+            "description": "Empresa n\u00e3o encontrada"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "empresa:visualizar"
+            ]
+          }
+        ], 
+        "tags": [
+          "Empresa"
+        ]
+      }
+    }, 
+    "/api/empresa/{empresa_id}/cartao": {
+      "get": {
+        "description": "Lista todos cartoes de clientes", 
+        "operationId": "pontos.api.cartoes.listar_cartoes_empresa", 
+        "parameters": [
+          {
+            "description": "ID da empresa", 
+            "in": "path", 
+            "name": "empresa_id", 
+            "required": true, 
+            "schema": {
+              "example": 42, 
+              "type": "integer"
+            }
+          }, 
+          {
+            "description": "\u00cdndice da p\u00e1gina.\n", 
+            "in": "query", 
+            "name": "page", 
+            "schema": {
+              "default": 1, 
+              "example": 42, 
+              "nullable": true, 
+              "type": "integer"
+            }
+          }, 
+          {
+            "description": "Tamanho da p\u00e1gina.\n", 
+            "in": "query", 
+            "name": "page_size", 
+            "schema": {
+              "default": 500, 
+              "example": 100, 
+              "nullable": true, 
+              "type": "integer"
+            }
+          }, 
+          {
+            "description": "Trazer apenas os registros novos, ou seja, maior que a data especificada\n", 
+            "in": "query", 
+            "name": "ultima_atualizacao", 
+            "schema": {
+              "example": "2021-01-11T11:32:28+00:00", 
+              "format": "date-time", 
+              "nullable": true, 
+              "type": "string"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "data": {
+                          "items": {
+                            "$ref": "#/components/schemas/Cartao"
+                          }, 
+                          "type": "array"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    {
+                      "$ref": "#/components/schemas/Paginacao"
+                    }
+                  ]
+                }
+              }
+            }, 
+            "description": "Success"
+          }, 
+          "400": {
+            "description": "Requisi\u00e7\u00e3o inv\u00e1lida"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "cartao:listar"
+            ]
+          }
+        ], 
+        "tags": [
+          "Cartoes Loja"
+        ]
+      }
+    }, 
+    "/api/status/check-sentry": {
+      "get": {
+        "operationId": "pontos.api.check_sentry", 
+        "parameters": [
+          {
+            "description": "Segredo para ativar envio para o Sentry", 
+            "in": "query", 
+            "name": "secret", 
+            "schema": {
+              "nullable": true, 
+              "type": "string"
+            }
+          }
+        ], 
+        "responses": {
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }, 
+        "summary": "Gera um erro que deve aparecer no sentry", 
+        "tags": [
+          "Status"
+        ]
+      }
+    }, 
+    "/api/usuario/{usuario_id}": {
+      "put": {
+        "description": "Altera a senha", 
+        "operationId": "pontos.api.usuarios.alterar_senha", 
+        "parameters": [
+          {
+            "description": "ID do usu\u00e1rio", 
+            "in": "path", 
+            "name": "usuario_id", 
+            "required": true, 
+            "schema": {
+              "example": 1, 
+              "type": "integer"
+            }
+          }
+        ], 
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false, 
+                "properties": {
+                  "new_password": {
+                    "example": "new secret", 
+                    "type": "string"
+                  }, 
+                  "old_password": {
+                    "example": "secret", 
+                    "type": "string"
+                  }
+                }, 
+                "required": [
+                  "old_password", 
+                  "new_password"
+                ], 
+                "type": "object"
+              }
+            }
+          }, 
+          "required": true
+        }, 
+        "responses": {
+          "204": {
+            "description": "Senha alterada com sucesso"
+          }, 
+          "400": {
+            "description": "usuario_id, password ou new_password n\u00e3o enviados ou inv\u00e1lidos"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }
+        }, 
+        "security": [
+          {
+            "jwtAuth": [
+              "usuario:alterar"
+            ]
+          }
+        ], 
+        "tags": [
+          "Usu\u00e1rio"
+        ]
+      }
+    }, 
+    "/api/version": {
+      "get": {
+        "operationId": "pontos.api.api_version", 
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }, 
+        "summary": "Retorna a vers\u00e3o da API", 
+        "tags": [
+          "Status"
+        ]
+      }
+    }
+  }, 
+  "servers": [
+    {
+      "url": ""
+    }
+  ]
+}
