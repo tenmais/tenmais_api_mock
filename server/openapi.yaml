@@ -582,8 +582,6 @@ paths:
       description: Lista detalhes da empresa
       tags:
         - Empresa
-      security:
-        - jwtAuth: [empresa:visualizar]
       parameters:
         - name: empresa_id
           in: path
@@ -592,6 +590,47 @@ paths:
           schema:
             type: integer
             example: 42
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Empresa'
+                  - type: object
+                    properties:
+                      configuracao:
+                        $ref: '#/components/schemas/EmpresaConfiguracao'
+                  - type: object
+                    properties:
+                      programas:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Programa'
+        401:
+          description: Not Authorized
+        403:
+          description: Not Allowed
+        404:
+          description: Empresa não encontrada
+
+  /api/empresa/{empresa_slug}:
+    get:
+      operationId: pontos.api.empresas.obter_empresa_slug
+      description: Lista detalhes da empresa
+      tags:
+        - Empresa
+      parameters:
+        - name: empresa_slug
+          in: path
+          description: SLUG da empresa
+          required: true
+          schema:
+            type: string
+            example: minhaloja
+
       responses:
         200:
           description: Success

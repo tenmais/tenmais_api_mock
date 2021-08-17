@@ -1197,13 +1197,6 @@
             "description": "Empresa n\u00e3o encontrada"
           }
         }, 
-        "security": [
-          {
-            "jwtAuth": [
-              "empresa:visualizar"
-            ]
-          }
-        ], 
         "tags": [
           "Empresa"
         ]
@@ -1303,6 +1296,71 @@
         ], 
         "tags": [
           "Cartoes Loja"
+        ]
+      }
+    }, 
+    "/api/empresa/{empresa_slug}": {
+      "get": {
+        "description": "Lista detalhes da empresa", 
+        "operationId": "pontos.api.empresas.obter_empresa_slug", 
+        "parameters": [
+          {
+            "description": "SLUG da empresa", 
+            "in": "path", 
+            "name": "empresa_slug", 
+            "required": true, 
+            "schema": {
+              "example": "minhaloja", 
+              "type": "string"
+            }
+          }
+        ], 
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Empresa"
+                    }, 
+                    {
+                      "properties": {
+                        "configuracao": {
+                          "$ref": "#/components/schemas/EmpresaConfiguracao"
+                        }
+                      }, 
+                      "type": "object"
+                    }, 
+                    {
+                      "properties": {
+                        "programas": {
+                          "items": {
+                            "$ref": "#/components/schemas/Programa"
+                          }, 
+                          "type": "array"
+                        }
+                      }, 
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            }, 
+            "description": "Success"
+          }, 
+          "401": {
+            "description": "Not Authorized"
+          }, 
+          "403": {
+            "description": "Not Allowed"
+          }, 
+          "404": {
+            "description": "Empresa n\u00e3o encontrada"
+          }
+        }, 
+        "tags": [
+          "Empresa"
         ]
       }
     }, 
